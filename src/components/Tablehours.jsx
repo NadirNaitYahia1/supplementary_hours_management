@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import prev from '../assets/prev.png'
-import next from '../assets/next.png'
-
-
+import prev from '../assets/prev.png';
+import next from '../assets/next.png';
+import { FaPen, FaSave, FaPrint, FaDownload } from "react-icons/fa";
 const Tablehours = () => {
     const [editMode, setEditMode] = useState(false);
     const [h, setH] = useState(18);  
+    const [isSavingHovered, setIsSavingHovered] = useState(false);
+    const [isEditingHovered, setIsEditingHovered] = useState(false);
     
     const handleEditClick = () => {
         setEditMode(!editMode);
@@ -15,46 +16,60 @@ const Tablehours = () => {
         setH(e.target.value);
     };
 
-  
-
     return (
         <div>
-            <div className="mt-5 ">
+            <div className="mt-5">
                 <div className='flex items-center justify-between mx-4 mb-2'>
                     <div>
                         <div className='flex items-center'>
-                           
                             <p>Mois:</p>
                             <button>
-                                <img src={prev} alt=""  className='h-[20px] w-[20px] mx-3'/>
+                                <img src={prev} alt="" className='h-[20px] w-[20px] mx-3' />
                             </button>                            
                             <span className='font-bold text-lg'>{' Janvier'}</span>
-                            
                             <button>
-                                <img src={next} alt=""  className='h-[20px] w-[20px] mx-3'/>
+                                <img src={next} alt="" className='h-[20px] w-[20px] mx-3' />
                             </button> 
                         </div>
                     </div>
 
                     <div className='icons '>
                         {!editMode && (
-                            <button className='bg-col-1  py-2 px-2 mx-2 text-white rounded-md ' onClick={handleEditClick}> 
-                                Modifier
-                            </button> 
+                            <button  
+                                className="font-semibold text-gray-700 rounded-lg text-lg hover:text-blue-600 relative"
+                                onClick={handleEditClick} 
+                                onMouseOver={() => setIsEditingHovered(true)}
+                                onMouseLeave={() => setIsEditingHovered(false)}
+                            >
+                                <FaPen />
+                                {isEditingHovered && (
+                                    <div className="bg-yellow-100 p-1 absolute top-4 right-7 -mt-2 -mr-2 transition-all duration-300 ease-in-out border border-black text-sm text-black font-medium">
+                                        modifier
+                                    </div>
+                                )}
+                            </button>
                         )}
-
-                        {editMode && (
-                            <button className='bg-col-2 py-2 px-2 mx-2 text-white rounded-md ' onClick={handleEditClick}> 
-                                Enregistrer
-                            </button> 
+                        {editMode && ( 
+                            <button
+                                className={`font-semibold rounded-lg text-lg relative
+                                ${editMode ? "text-gray-700 hover:text-blue-600" : "text-gray-300"}`}
+                                onClick={handleEditClick}
+                                onMouseOver={() => setIsSavingHovered(true)}
+                                onMouseLeave={() => setIsSavingHovered(false)}
+                            >
+                                <FaSave />
+                                {isSavingHovered && editMode && (
+                                    <div className="bg-yellow-100 p-1 absolute top-4 right-7 -mt-2 -mr-2 transition-all duration-300 ease-in-out border border-black text-sm text-black font-medium">
+                                        sauvegarder
+                                    </div>
+                                )}
+                            </button>
                         )}
-                        
-                        <button className='bg-green-600  py-2 px-2 mx-2 text-white rounded-md '> 
-                            Imprimer
+                        <button className='mx-2'  > 
+                            <FaPrint />
                         </button>                    
-
-                        <button className='bg-red-600  py-2 px-2 mx-2 text-white rounded-md '> 
-                            Telecharger
+                        <button > 
+                            <FaDownload />  
                         </button>                    
                     </div>
                 </div>
@@ -82,7 +97,7 @@ const Tablehours = () => {
                             <td>
                                 {editMode ? ( 
                                     <input type="text" value={h} onChange={handleHoursChange} className='text-center bg-gray-200' />
-                                    ) : (
+                                ) : (
                                     <span onClick={handleEditClick} className='cursor-pointer'>{h} heures</span> 
                                 )}
                             </td>
@@ -95,9 +110,9 @@ const Tablehours = () => {
                             <td>120 heures</td>
                             <td>14 semaines</td>
                             <td>
-                            {editMode ? ( 
+                                {editMode ? ( 
                                     <input type="text" value={h} onChange={handleHoursChange} className='text-center bg-gray-200' />
-                                    ) : (
+                                ) : (
                                     <span onClick={handleEditClick} className='cursor-pointer'>{h} heures</span> 
                                 )}
                             </td>
@@ -110,14 +125,13 @@ const Tablehours = () => {
                             <td>120 heures</td>
                             <td>14 semaines</td>
                             <td>
-                            {editMode ? ( 
+                                {editMode ? ( 
                                     <input type="text" value={h} onChange={handleHoursChange} className='text-center bg-gray-200' />
-                                    ) : (
+                                ) : (
                                     <span onClick={handleEditClick} className='cursor-pointer'>{h} heures</span> 
                                 )}
                             </td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
